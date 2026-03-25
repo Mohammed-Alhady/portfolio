@@ -5,11 +5,7 @@ import Image from "next/image";
 import Head from "next/head";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebook,
-  faGithub,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelope,
   faMapPin,
@@ -31,8 +27,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState(null);
+  const [isSubmitting] = useState(false);
 
   // معالجة التمرير (Scroll) بأداء عالٍ
   useEffect(() => {
@@ -62,44 +57,44 @@ export default function Home() {
   };
 
   // معالجة إرسال النموذج (Form Submission)
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitMessage(null);
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+  //   setSubmitMessage(null);
 
-    const formData = new FormData(e.target);
+  //   const formData = new FormData(e.target);
 
-    try {
-      // تنبيه: استبدل الرابط أدناه برابط Formspree الخاص بك
-      const response = await fetch("https://formspree.io/f/your-endpoint", {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
-      });
+  //   try {
+  //     // تنبيه: استبدل الرابط أدناه برابط Formspree الخاص بك
+  //     const response = await fetch("https://formspree.io/f/your-endpoint", {
+  //       method: "POST",
+  //       body: formData,
+  //       headers: { Accept: "application/json" },
+  //     });
 
-      if (response.ok) {
-        setSubmitMessage({
-          type: "success",
-          text: "تم إرسال رسالتك بنجاح! سأتواصل معك قريباً.",
-        });
-        e.target.reset();
-      } else {
-        setSubmitMessage({
-          type: "error",
-          text: "عذراً، حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.",
-        });
-      }
-    } catch (error) {
-      setSubmitMessage({
-        type: "error",
-        text: "تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك.",
-      });
-    } finally {
-      setIsSubmitting(false);
-      // إخفاء الرسالة بعد 5 ثوانٍ
-      setTimeout(() => setSubmitMessage(null), 5000);
-    }
-  };
+  //     if (response.ok) {
+  //       setSubmitMessage({
+  //         type: "success",
+  //         text: "تم إرسال رسالتك بنجاح! سأتواصل معك قريباً.",
+  //       });
+  //       e.target.reset();
+  //     } else {
+  //       setSubmitMessage({
+  //         type: "error",
+  //         text: "عذراً، حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     setSubmitMessage({
+  //       type: "error",
+  //       text: "تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك.",
+  //     });
+  //   } finally {
+  //     setIsSubmitting(false);
+  //     // إخفاء الرسالة بعد 5 ثوانٍ
+  //     setTimeout(() => setSubmitMessage(null), 5000);
+  //   }
+  // };
 
   // روابط التنقل
   const navLinks = [
@@ -402,19 +397,6 @@ export default function Home() {
                       />
                     )}
                     <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center gap-4">
-                      {item.githubLink && (
-                        <button
-                          title="عرض الكود المصدري"
-                          aria-label="رابط المشروع على GitHub"
-                          className="bg-white text-slate-900 p-3 rounded-full hover:bg-blue-600 hover:text-white transition transform hover:scale-110"
-                          onClick={() => window.open(item.githubLink, "_blank")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faGithub}
-                            className="w-5 h-5"
-                          />
-                        </button>
-                      )}
                       {item.liveLink && (
                         <button
                           title="معاينة حية"
@@ -480,20 +462,14 @@ export default function Home() {
                     className="group bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
                   >
                     <div className="relative h-48 bg-slate-700 overflow-hidden">
-                      {cert.image ? (
-                        <img
-                          src={cert.image}
-                          alt={cert.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100"
-                        />
-                      ) : (
+                      {
                         <div className="flex items-center justify-center h-full text-slate-500">
                           <FontAwesomeIcon
                             icon={faLayerGroup}
                             className="text-4xl"
                           />
                         </div>
-                      )}
+                      }
                     </div>
 
                     <div className="p-6">
@@ -625,15 +601,18 @@ export default function Home() {
                   أرسل لي رسالة
                 </h3>
 
-                {submitMessage && (
+                {/* {submitMessage && (
                   <div
                     className={`p-4 rounded-lg mb-6 ${submitMessage.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}
                   >
                     {submitMessage.text}
                   </div>
-                )}
+                )} */}
 
-                <form onSubmit={handleFormSubmit} className="space-y-6">
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="space-y-6"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label

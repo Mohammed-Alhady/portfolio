@@ -11,10 +11,7 @@ import {
   faMapPin,
   faPhone,
   faCheckCircle,
-  faCode,
   faLayerGroup,
-  faPalette,
-  faMobileScreen,
   faArrowUp,
   faBars,
   faXmark,
@@ -323,23 +320,7 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "تطوير الويب",
-                  desc: "بناء مواقع وتطبيقات ويب سريعة وآمنة باستخدام أحدث التقنيات مثل Next.js و React.",
-                  icon: faCode,
-                },
-                {
-                  title: "تصميم UI/UX",
-                  desc: "تصميم واجهات مستخدم جذابة وسهلة الاستخدام تركز على تحسين تجربة الزائر.",
-                  icon: faPalette,
-                },
-                {
-                  title: "تطبيقات الموبايل",
-                  desc: "تحويل تطبيقات الويب لتعمل بكفاءة على الهواتف الذكية وتوفير تجربة سلسة.",
-                  icon: faMobileScreen,
-                },
-              ].map((service, i) => (
+              {data.services.map((service, i) => (
                 <div
                   key={i}
                   className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition duration-300 group"
@@ -351,7 +332,7 @@ export default function Home() {
                     {service.title}
                   </h3>
                   <p className="text-slate-600 leading-relaxed">
-                    {service.desc}
+                    {service.description}
                   </p>
                 </div>
               ))}
